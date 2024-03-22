@@ -1,0 +1,2 @@
+2024-03-21 23:31:37.165 [DEBU] {8cb447fc5ad1be177784457b148a5e28} [  6 ms] [default] [shop] [rows:7  ] SHOW FULL COLUMNS FROM `rotation_info`
+2024-03-21 23:31:37.168 [DEBU] {8cb447fc5ad1be177784457b148a5e28} [  2 ms] [default] [shop] [rows:1  ] INSERT INTO `rotation_info`(`pic_url`,`link`,`sort`,`created_at`,`updated_at`) VALUES('ftp://fstcxqf.fj/vcay','cid://buz.id/quoevxfa',1,'2024-03-21 23:31:37','2024-03-21 23:31:37') 
