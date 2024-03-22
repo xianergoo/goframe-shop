@@ -3,7 +3,6 @@ package Rotation
 import (
 	"context"
 	"github.com/gogf/gf/v2/database/gdb"
-
 	"goframe-shop/internal/service"
 
 	"github.com/gogf/gf/v2/encoding/ghtml"
@@ -42,7 +41,8 @@ func (s *sRotation) Delete(ctx context.Context, id uint) error {
 		// 删除内容
 		_, err := dao.RotationInfo.Ctx(ctx).Where(g.Map{
 			dao.RotationInfo.Columns().Id: id,
-		}).Delete()
+		}).Unscoped().Delete()
 		return err
 	})
+
 }

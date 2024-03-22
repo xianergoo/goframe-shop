@@ -16,4 +16,7 @@ manifest/output/
 temp/
 temp.yaml
 bin
+logs
 **/config/config.yaml
+~$*
+*~

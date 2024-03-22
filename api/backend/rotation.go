@@ -16,7 +16,7 @@ type RotationRes struct {
 }
 
 type RotationDeleteReq struct {
-	g.Meta `path:"/rotation/delete" method:"delete" tags:"轮播图" summary:"删除轮播图接口"`
+	g.Meta `path:"/backend/rotation/delete" method:"delete" tags:"轮播图" summary:"删除轮播图接口"`
 	Id     uint `v:"min:1#请选择需要删除的内容" dc:"内容id"`
 }
 
