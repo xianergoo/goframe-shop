@@ -41,5 +41,41 @@ func (a *cRotation) Update(ctx context.Context, req *backend.RotationUpdateReq) 
 			Sort:   req.Sort,
 		},
 	})
-	return
+	return &backend.RotationUpdateRes{Id: req.Id}, err
+}
+
+// Index article list
+func (a *cRotation) list(ctx context.Context, req *backend.RotationGetListCommonReq) (res *backend.RotationGetListCommonRes, err error) {
+	getListRes, err := service.Rotation().GetList(ctx, model.RotationGetListInput{
+		Page: req.Page,
+		Size: req.Size,
+		Sort: req.Sort,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &backend.RotationGetListCommonRes{
+		List: getListRes.List, Page: getListRes.Page, Size: getListRes.Size, Total: getListRes.Total,
+	}, nil
+}
+
+// Index article list
+func (a *cRotation) list1(ctx context.Context, req *backend.RotationGetListReq) (res *backend.RotationGetListRes, err error) {
+	//getListRes, err := service.Rotation().GetList1(ctx, model.RotationGetList1Input{
+	//	Page: req.Page,
+	//	Size: req.Size,
+	//	Sort: req.Sort,
+	//})
+	//if err != nil {
+	//	return nil, err
+	//}
+	// service.View().Render(ctx, model.View{
+	// 	RotationType: req.Type,
+	// 	Data:        getListRes,
+	// 	Title: service.View().GetTitle(ctx, &model.ViewGetTitleInput{
+	// 		RotationType: req.Type,
+	// 		CategoryId:  req.CategoryId,
+	// 	}),
+	// })
+	return &backend.RotationGetListRes{Page: 1, Size: 2, Total: 3}, nil
 }
