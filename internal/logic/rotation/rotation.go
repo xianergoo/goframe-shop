@@ -9,10 +9,8 @@ import (
 	"github.com/gogf/gf/v2/encoding/ghtml"
 	"github.com/gogf/gf/v2/frame/g"
 
-	"goframe-shop/internal/consts"
 	"goframe-shop/internal/dao"
 	"goframe-shop/internal/model"
-	"goframe-shop/internal/model/entity"
 )
 
 type sRotation struct{}
@@ -52,20 +50,6 @@ func (s *sRotation) Delete(ctx context.Context, id uint) error {
 
 }
 
-// Delete1 删除
-func (s *sRotation) Delete1(ctx context.Context, id uint) error {
-	return dao.RotationInfo.Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
-		// 删除内容
-		// Unscoped().Delete() 删除数据
-		// Delete()  更新Delete time 字段
-		_, err := dao.RotationInfo.Ctx(ctx).Where(g.Map{
-			dao.RotationInfo.Columns().Id: id,
-		}).Unscoped().Delete() //
-		return err
-	})
-
-}
-
 // Update 修改
 func (s *sRotation) Update(ctx context.Context, in model.RotationUpdateInput) error {
 	return dao.RotationInfo.Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
@@ -83,66 +67,26 @@ func (s *sRotation) Update(ctx context.Context, in model.RotationUpdateInput) er
 	})
 }
 
-func (s *sRotation) GetList1(ctx context.Context, in model.RotationGetList1Input) (out model.RotationGetList1Output, err error) {
-	out = model.RotationGetList1Output{
-		Page: in.Page,
-		Size: in.Size,
-	}
-	return
-}
-
 // GetList 查询内容列表
 func (s *sRotation) GetList(ctx context.Context, in model.RotationGetListInput) (out *model.RotationGetListOutput, err error) {
-	var (
-		m = dao.RotationInfo.Ctx(ctx)
-	)
+	//1.获得*gdb.Model对象，方面后续调用
+	m := dao.RotationInfo.Ctx(ctx)
+	//2. 实例化响应结构体
 	out = &model.RotationGetListOutput{
 		Page: in.Page,
 		Size: in.Size,
 	}
-	// 默认查询topic
-	// if in.Type != "" {
-	// 	m = m.Where(dao.RotationInfo.Columns().Type, in.Type)
-	// } else {
-	// 	m = m.Where(dao.RotationInfo.Columns().Type, consts.RotationTypeTopic)
-	// }
-	// 栏目检索
-	// if in.CategoryId > 0 {
-	// 	idArray, err := service.Category().GetSubIdList(ctx, in.CategoryId)
-	// 	if err != nil {
-	// 		return out, err
-	// 	}
-	// 	m = m.Where(dao.Rotation.Columns().CategoryId, idArray)
-	// }
-	// 管理员可以查看所有文章
-	// if in.UserId > 0 && !service.User().IsAdmin(ctx, in.UserId) {
-	// 	m = m.Where(dao.Rotation.Columns().UserId, in.UserId)
-	// }
-	// 分配查询
+	//3. 分页查询
 	listModel := m.Page(in.Page, in.Size)
-	// 排序方式
-	switch in.Sort {
-	case consts.RotationSortActive:
-		listModel = listModel.OrderDesc(dao.RotationInfo.Columns().UpdatedAt)
-
-	default:
-		listModel = listModel.OrderDesc(dao.RotationInfo.Columns().Sort)
-	}
-	// 执行查询
-	var list []*entity.RotationInfo
-	if err := listModel.Scan(&list); err != nil {
-		return out, err
-	}
-	// 没有数据
-	if len(list) == 0 {
-		return out, nil
-	}
+	//4. 再查询count，判断有无数据
 	out.Total, err = m.Count()
-	if err != nil {
+	if err != nil || out.Total == 0 {
 		return out, err
 	}
-	// Rotation
-	if err := listModel.ScanList(&out.List, "Rotation"); err != nil {
+	//5. 延迟初始化list切片 确定有数据，再按期望大小初始化切片容量
+	out.List = make([]model.RotationGetListOutputItem, 0, in.Size)
+	//6.把查询到的结果赋值到响应结构体中
+	if err := listModel.Scan(&out.List); err != nil {
 		return out, err
 	}
 	return

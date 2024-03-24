@@ -16,11 +16,9 @@ type (
 		Create(ctx context.Context, in model.RotationCreateInput) (out model.RotationCreateOutput, err error)
 		// Delete 删除
 		Delete(ctx context.Context, id uint) error
-		// Delete1 删除
-		Delete1(ctx context.Context, id uint) error
 		// Update 修改
 		Update(ctx context.Context, in model.RotationUpdateInput) error
-		GetList1(ctx context.Context, in model.RotationGetList1Input) (out model.RotationGetList1Output, err error)
+		GetList1(ctx context.Context, in model.RotationGetListInput) (out model.RotationGetListOutput, err error)
 		// GetList 查询内容列表
 		GetList(ctx context.Context, in model.RotationGetListInput) (out *model.RotationGetListOutput, err error)
 	}
