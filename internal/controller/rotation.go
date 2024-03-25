@@ -59,24 +59,3 @@ func (a *cRotation) List(ctx context.Context, req *backend.RotationGetListCommon
 		Size:  getListRes.Size,
 		Total: getListRes.Total}, nil
 }
-
-// Index article list
-func (a *cRotation) list1(ctx context.Context, req *backend.RotationGetListReq) (res *backend.RotationGetListRes, err error) {
-	//getListRes, err := service.Rotation().GetList1(ctx, model.RotationGetList1Input{
-	//	Page: req.Page,
-	//	Size: req.Size,
-	//	Sort: req.Sort,
-	//})
-	//if err != nil {
-	//	return nil, err
-	//}
-	// service.View().Render(ctx, model.View{
-	// 	RotationType: req.Type,
-	// 	Data:        getListRes,
-	// 	Title: service.View().GetTitle(ctx, &model.ViewGetTitleInput{
-	// 		RotationType: req.Type,
-	// 		CategoryId:  req.CategoryId,
-	// 	}),
-	// })
-	return &backend.RotationGetListRes{Page: 1, Size: 2, Total: 3}, nil
-}

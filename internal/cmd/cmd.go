@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"context"
+
 	_ "github.com/gogf/gf/contrib/drivers/mysql/v2"
 	"github.com/gogf/gf/v2/frame/g"
 
@@ -24,6 +25,7 @@ var (
 				group.Middleware(ghttp.MiddlewareHandlerResponse) //
 				group.Bind(
 					controller.Rotation,
+					controller.Position,
 				)
 			})
 			s.Run()
