@@ -7,7 +7,7 @@ import (
 	"goframe-shop/internal/service"
 )
 
-// 承上启下
+// Position 承上启下
 // Position 内容管理
 var Position = cPosition{}
 

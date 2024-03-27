@@ -15,7 +15,7 @@ type RotationRes struct {
 }
 
 type RotationDeleteReq struct {
-	g.Meta `path:"/backend/rotation/delete" method:"delete" tags:"rotation" summary:"删除position接口"`
+	g.Meta `path:"/backend/rotation/delete" method:"delete" tags:"rotation" summary:"删除rotation接口"`
 	Id     uint `v:"min:1#请选择需要删除的rotation" dc:"rotationid"`
 }
 
@@ -47,7 +47,7 @@ type RotationGetListRes struct {
 	Total int `json:"total" description:"数据总数"`
 }
 type RotationGetListCommonReq struct {
-	g.Meta `path:"/backend/rotation/list" method:"get" tags:"position" summary:"position列表接口"`
+	g.Meta `path:"/backend/rotation/list" method:"get" tags:"rotation" summary:"rotation列表接口"`
 	Sort   int `json:"sort"   in:"query" dc:"排序类型"`
 	CommonPaginationReq
 }
