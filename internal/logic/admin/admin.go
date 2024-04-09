@@ -2,15 +2,18 @@ package admin
 
 import (
 	"context"
-	"github.com/gogf/gf/v2/util/grand"
 	"goframe-shop/internal/dao"
 	"goframe-shop/internal/model"
 	"goframe-shop/internal/service"
 	"goframe-shop/utility"
 
+	"github.com/gogf/gf/v2/util/grand"
+
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/encoding/ghtml"
 	"github.com/gogf/gf/v2/frame/g"
+
+	"goframe-shop/internal/model/entity"
 )
 
 type sAdmin struct{}
@@ -98,4 +101,23 @@ func (s *sAdmin) GetList(ctx context.Context, in model.AdminGetListInput) (out *
 		return out, err
 	}
 	return
+}
+
+func (s *sAdmin) GetAdminByNamePassword(ctx context.Context, in model.UserLoginInput) map[string]interface{} {
+	//???
+	adminInfo := entity.AdminInfo{}
+	err := dao.AdminInfo.Ctx(ctx).Where("name", in.Name).Scan(
+		&adminInfo)
+	if err != nil {
+		return nil
+	}
+
+	if utility.EncryptPassword(in.Password, adminInfo.UserSalt) != adminInfo.Password {
+		return nil
+	} else {
+		return g.Map{
+			"id":       adminInfo.Id,
+			"username": adminInfo.Name,
+		}
+	}
 }

@@ -45,7 +45,7 @@ func (a *cPosition) Update(ctx context.Context, req *backend.PositionUpdateReq) 
 			GoodsId:   req.GoodsId,
 		},
 	})
-	return &backend.PositionUpdateRes{Id: req.Id}, nil
+	return &backend.PositionUpdateRes{Id: req.Id}, err
 }
 
 func (a *cPosition) List(ctx context.Context, req *backend.PositionGetListCommonReq) (res *backend.PositionGetListCommonRes, err error) {

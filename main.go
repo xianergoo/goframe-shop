@@ -4,6 +4,7 @@ import (
 	_ "github.com/gogf/gf/contrib/drivers/mysql/v2"
 
 	_ "goframe-shop/internal/logic"
+
 	_ "goframe-shop/internal/packed"
 
 	"github.com/gogf/gf/v2/os/gctx"
