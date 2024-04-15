@@ -4,10 +4,10 @@ import (
 	"context"
 
 	"goframe-shop/api/backend"
+	"goframe-shop/internal/consts"
 	"goframe-shop/internal/model"
 	"goframe-shop/internal/service"
 
-	// "github.com/gogf/gf-jwt/v2/example/api"
 	"github.com/gogf/gf/util/gconv"
 )
 
@@ -66,10 +66,22 @@ func (a *cAdmin) List(ctx context.Context, req *backend.AdminGetListCommonReq) (
 
 // Info should be authenticated to view.
 // It is the get user data handler
+// for jwt
+// func (c *cAdmin) Info(ctx context.Context, req *backend.AdminGetInfoReq) (res *backend.AdminGetInfoRes, err error) {
+// 	return &backend.AdminGetInfoRes{
+// 		Id:          gconv.Int(service.Auth().GetIdentity(ctx)),
+// 		IdentityKey: service.Auth().IdentityKey,
+// 		Payload:     service.Auth().GetPayload(ctx),
+// 	}, nil
+// }
+
+// forgtoken
+// gtoken 版本返回结果
 func (c *cAdmin) Info(ctx context.Context, req *backend.AdminGetInfoReq) (res *backend.AdminGetInfoRes, err error) {
 	return &backend.AdminGetInfoRes{
-		Id:          gconv.Int(service.Auth().GetIdentity(ctx)),
-		IdentityKey: service.Auth().IdentityKey,
-		Payload:     service.Auth().GetPayload(ctx),
-	}, nil
+		Id:      gconv.Int(ctx.Value(consts.CtxAdminId)),
+		Name:    gconv.String(ctx.Value(consts.CtxAdminName)),
+		IsAdmin: gconv.Int(ctx.Value(consts.CtxAdminIsAdmin)),
+		RoleIds: gconv.String(ctx.Value(consts.CtxAdminRoleIds)),
+	}, err
 }

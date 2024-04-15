@@ -7,6 +7,8 @@ import (
 
 	_ "goframe-shop/internal/packed"
 
+	_ "github.com/gogf/gf/contrib/nosql/redis/v2"
+
 	"github.com/gogf/gf/v2/os/gctx"
 
 	"goframe-shop/internal/cmd"

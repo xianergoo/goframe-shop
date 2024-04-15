@@ -8,5 +8,6 @@ import (
 	_ "goframe-shop/internal/logic/position"
 	_ "goframe-shop/internal/logic/rotation"
 
+	_ "goframe-shop/internal/logic/role"
 	_ "goframe-shop/internal/logic/session"
 )
