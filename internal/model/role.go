@@ -40,4 +40,22 @@ type RoleGetListOutput struct {
 type RoleGetListOutputItem struct {
 	Id   uint   `json:"id"` // 自增ID
 	Name string `json:"name"    description:"用户名"`
+	Desc string `json:"desc"`
+}
+
+type RoleAddPermissionInput struct {
+	RoleId       uint `json:"role_id"`
+	PermissionId uint `json:"permission_id"`
+}
+
+type RoleAddPermissionOutput struct {
+	Id uint `json:"id"` // 自增ID
+}
+
+type RoleDelPermissionInput struct {
+	RoleId       uint `json:"role_id"`
+	PermissionId uint `json:"permission_id"`
+}
+
+type RoleDelPermissionOutput struct {
 }

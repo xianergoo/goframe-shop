@@ -9,31 +9,31 @@ type AdminReq struct {
 	Name     string `json:"name" v:"required#用户名不能为空" dc:"用户名"`
 	Password string `json:"password"    v:"required#密码不能为空" dc:"密码"`
 	RoleIds  string `json:"role_ids"    dc:"角色ids"`
-	IsAdmin  int    `json:"is_admin"    dc:"是否超级管理员"`
+	IsAdmin  int    `json:"is_admin"    dc:"是否超级Admin"`
 }
 
 type AdminRes struct {
 	AdminId uint `json:"admin_id"`
 }
 type AdminDeleteReq struct {
-	g.Meta `path:"/backend/admin/delete" method:"delete" tags:"管理员" summary:"删除管理员接口"`
-	Id     uint `v:"min:1#请选择需要删除的管理员" dc:"管理员id"`
+	g.Meta `path:"/backend/admin/delete" method:"delete" tags:"Admin" summary:"删除Admin接口"`
+	Id     uint `v:"min:1#请选择需要删除的Admin" dc:"Adminid"`
 }
 type AdminDeleteRes struct{}
 
 type AdminUpdateReq struct {
-	g.Meta   `path:"/backend/admin/update/{Id}" method:"post" tags:"管理员" summary:"修改管理员接口"`
-	Id       uint   `json:"id"      v:"min:1#请选择需要修改的管理员" dc:"管理员Id"`
+	g.Meta   `path:"/backend/admin/update/{Id}" method:"post" tags:"Admin" summary:"修改Admin接口"`
+	Id       uint   `json:"id"      v:"min:1#请选择需要修改的Admin" dc:"AdminId"`
 	Name     string `json:"name" v:"required#用户名不能为空" dc:"用户名"`
 	Password string `json:"password"    v:"required#密码不能为空" dc:"密码"`
 	RoleIds  string `json:"role_ids"    dc:"角色ids"`
-	IsAdmin  int    `json:"is_admin"    dc:"是否超级管理员"`
+	IsAdmin  int    `json:"is_admin"    dc:"是否超级Admin"`
 }
 type AdminUpdateRes struct {
 	Id uint `json:"id"`
 }
 type AdminGetListCommonReq struct {
-	g.Meta `path:"/backend/admin/list" method:"get" tags:"管理员" summary:"管理员列表接口"`
+	g.Meta `path:"/backend/admin/list" method:"get" tags:"Admin" summary:"Admin列表接口"`
 	CommonPaginationReq
 }
 type AdminGetListCommonRes struct {
