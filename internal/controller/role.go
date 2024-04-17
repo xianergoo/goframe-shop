@@ -79,16 +79,3 @@ func (c *cRole) List(ctx context.Context, req *backend.RoleGetListCommonReq) (re
 		Size:  getListRes.Size,
 		Total: getListRes.Total}, nil
 }
-
-func (c *cRole) GetInfo(ctx context.Context, req *backend.RoleInfoReq) (res *backend.RoleInfoRes, err error) {
-	getInfoRes, err := service.Role().GetInfo(ctx, req.Id)
-	if err != nil {
-		return nil, err
-	}
-
-	return &backend.RoleInfoRes{
-		Id:   getInfoRes.Id,
-		Name: getInfoRes.Name,
-		Desc: getInfoRes.Desc,
-	}, nil
-}

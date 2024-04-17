@@ -70,6 +70,7 @@ var (
 					controller.Admin.List,
 					controller.Login.RefreshToken,
 					controller.Role,
+					controller.Permission,
 				)
 
 				group.Group("/", func(group *ghttp.RouterGroup) {
