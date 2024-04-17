@@ -71,6 +71,7 @@ var (
 					controller.Login.RefreshToken,
 					controller.Role,
 					controller.Permission,
+					controller.File,
 				)
 
 				group.Group("/", func(group *ghttp.RouterGroup) {
@@ -159,7 +160,6 @@ func loginAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 		}
 		response.JsonExit(r, 0, "", data)
 	}
-	return
 }
 
 func authAfterFunc(r *ghttp.Request, respData gtoken.Resp) {

@@ -4,7 +4,7 @@ import "github.com/gogf/gf/v2/frame/g"
 
 type PermissionReq struct {
 	g.Meta `path:"/backend/permission/add" method:"post" tags:"Permission" summary:"add permission"`
-	Name   string `json:"name" v:"required"#require name" dc:"permission name"`
+	Name   string `json:"name" v:"required"#requirename" dc:"permission name"`
 	Path   string `json:"path" path:"permission pathription"`
 }
 
