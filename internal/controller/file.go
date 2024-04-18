@@ -2,6 +2,7 @@ package controller
 
 import (
 	"context"
+	"github.com/gogf/gf/v2/frame/g"
 	"goframe-shop/api/backend"
 	"goframe-shop/internal/model"
 	"goframe-shop/internal/service"
@@ -16,6 +17,7 @@ type cFile struct {
 }
 
 func (c *cFile) Upload(ctx context.Context, req *backend.FileUploadReq) (res *backend.FileUploadRes, err error) {
+	g.Log().Debug(ctx, "test")
 	if req.File == nil {
 		return nil, gerror.NewCode(gcode.CodeMissingParameter, "请上传文件")
 	}

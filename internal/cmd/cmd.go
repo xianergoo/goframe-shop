@@ -71,14 +71,23 @@ var (
 					controller.Login.RefreshToken,
 					controller.Role,
 					controller.Permission,
-					controller.File,
 				)
 
 				group.Group("/", func(group *ghttp.RouterGroup) {
 					// group.Middleware(service.Middleware().Auth) //for jwt
+
+					err := gfToken.Middleware(ctx, group)
+					if err != nil {
+						panic(err)
+					}
 					group.ALLMap(g.Map{
 						"/backend/admin/info": controller.Admin.Info,
 					})
+
+					group.Bind(
+						controller.File,
+						controller.Upload,
+					)
 				})
 			})
 

@@ -2,7 +2,15 @@ module goframe-shop
 
 go 1.18
 
-require github.com/gogf/gf/v2 v2.7.0
+require (
+	github.com/goflyfox/gtoken v1.5.10
+	github.com/gogf/gf v1.16.9
+	github.com/gogf/gf-jwt/v2 v2.1.0
+	github.com/gogf/gf/contrib/drivers/mysql/v2 v2.7.0
+	github.com/gogf/gf/contrib/nosql/redis/v2 v2.7.0
+	github.com/gogf/gf/v2 v2.7.0
+	github.com/qiniu/go-sdk/v7 v7.20.0
+)
 
 require (
 	github.com/BurntSushi/toml v1.2.0 // indirect
@@ -15,11 +23,7 @@ require (
 	github.com/go-logr/logr v1.2.4 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-sql-driver/mysql v1.7.1 // indirect
-	github.com/goflyfox/gtoken v1.5.10 // indirect
-	github.com/gogf/gf v1.16.9 // indirect
-	github.com/gogf/gf-jwt/v2 v2.1.0 // indirect
-	github.com/gogf/gf/contrib/drivers/mysql/v2 v2.7.0 // indirect
-	github.com/gogf/gf/contrib/nosql/redis/v2 v2.7.0 // indirect
+	github.com/gofrs/flock v0.8.1 // indirect
 	github.com/golang-jwt/jwt/v4 v4.3.0 // indirect
 	github.com/gomodule/redigo v1.8.5 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
@@ -35,6 +39,7 @@ require (
 	go.opentelemetry.io/otel/sdk v1.14.0 // indirect
 	go.opentelemetry.io/otel/trace v1.14.0 // indirect
 	golang.org/x/net v0.17.0 // indirect
+	golang.org/x/sync v0.1.0 // indirect
 	golang.org/x/sys v0.13.0 // indirect
 	golang.org/x/text v0.13.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
