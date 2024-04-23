@@ -3,7 +3,7 @@ package backend
 import "github.com/gogf/gf/v2/frame/g"
 
 type RoleReq struct {
-	g.Meta `path:"/backend/role/add" method:"post" tags:"Role" desc:"add role"`
+	g.Meta `path:"/role/add" method:"post" tags:"role" desc:"role add"`
 	Name   string `json:"name" v:"required"#require name" dc:"role name"`
 	Desc   string `json:"desc" desc:"role description"`
 }
@@ -13,7 +13,7 @@ type RoleRes struct {
 }
 
 type RoleUpdateReq struct {
-	g.Meta `path:"/backend/role/update/{Id}" method:"post" tags:"Role" summary:"修改role接口"`
+	g.Meta `path:"/role/update/{Id}" method:"post" tags:"role" summary:"role modify"`
 	Id     uint   `json:"id"      v:"min:1#请选择需要修改的role" dc:"id"`
 	Name   string `json:"name" v:"required#用户名不能为空" dc:"用户名"`
 	Desc   string `json:"desc"    dc:"角色ids"`
@@ -23,7 +23,7 @@ type RoleUpdateRes struct {
 }
 
 type RoleInfoReq struct {
-	g.Meta `path:"/backend/role/info/{Id}" method:"get" tags:"Role" summary:"get info"`
+	g.Meta `path:"/role/info/{Id}" method:"get" tags:"role" summary:"role info"`
 	Id     uint `json:"id"      v:"min:1#请选择需要查看的role" dc:"id"`
 }
 type RoleInfoRes struct {
@@ -33,7 +33,7 @@ type RoleInfoRes struct {
 }
 
 type RoleGetListCommonReq struct {
-	g.Meta `path:"/backend/role/list" method:"get" tags:"Role" summary:"role列表接口"`
+	g.Meta `path:"/role/list" method:"get" tags:"role" summary:"role list"`
 	CommonPaginationReq
 }
 
@@ -45,14 +45,14 @@ type RoleGetListCommonRes struct {
 }
 
 type RoleDeleteReq struct {
-	g.Meta `path:"/backend/role/delete" method:"delete" tags:"Role" summary:"删除Role接口"`
+	g.Meta `path:"/role/delete" method:"delete" tags:"role" summary:"role delete"`
 	Id     uint `v:"min:1#请选择需要删除的Role" dc:"Roleid"`
 }
 
 type RoleDeleteRes struct{}
 
 type RoleAddPermssionReq struct {
-	g.Meta       `path:"/backend/role/add/permission" method:"post" tags:"Role" summary:"add permission"`
+	g.Meta       `path:"/role/add/permission" method:"post" tags:"role permission" summary:"permission add "`
 	RoleId       uint `json:"role_id" desc:"role id"`
 	PermissionId uint `json:"permission_id" desc:"role permission id"`
 }
@@ -62,7 +62,7 @@ type RoleAddPermssionRes struct {
 }
 
 type RoleDelPermssionReq struct {
-	g.Meta       `path:"/backend/role/delete/permission" method:"post" tags:"Role" summary:"delete permission"`
+	g.Meta       `path:"/role/delete/permission" method:"post" tags:"role permission" summary:"permission delete"`
 	RoleId       uint `json:"role_id" desc:"role id"`
 	PermissionId uint `json:"permission_id" desc:"role permission id"`
 }

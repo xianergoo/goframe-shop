@@ -3,7 +3,7 @@ package backend
 import "github.com/gogf/gf/v2/frame/g"
 
 type PermissionReq struct {
-	g.Meta `path:"/backend/permission/add" method:"post" tags:"Permission" summary:"add permission"`
+	g.Meta `path:"/permission/add" method:"post" tags:"permission" summary:"permission add"`
 	Name   string `json:"name" v:"required"#requirename" dc:"permission name"`
 	Path   string `json:"path" path:"permission pathription"`
 }
@@ -13,7 +13,7 @@ type PermissionRes struct {
 }
 
 type PermissionUpdateReq struct {
-	g.Meta `path:"/backend/permission/update/{Id}" method:"post" tags:"Permission" summary:"修改permission接口"`
+	g.Meta `path:"/permission/update/{Id}" method:"post" tags:"permission" summary:"permission modify"`
 	Id     uint `json:"id"      v:"min:1#请选择需要修改的permission" dc:"id"`
 	PermissionCreateUpdateBase
 }
@@ -27,7 +27,7 @@ type PermissionCreateUpdateBase struct {
 }
 
 type PermissionGetListCommonReq struct {
-	g.Meta `path:"/backend/permission/list" method:"get" tags:"Permission" summary:"permission列表接口"`
+	g.Meta `path:"/permission/list" method:"get" tags:"permission" summary:"permission list"`
 	CommonPaginationReq
 }
 
@@ -39,7 +39,7 @@ type PermissionGetListCommonRes struct {
 }
 
 type PermissionDeleteReq struct {
-	g.Meta `path:"/backend/permission/delete" method:"delete" tags:"Permission" summary:"删除Permission接口"`
+	g.Meta `path:"/permission/delete" method:"delete" tags:"permission" summary:"permission del"`
 	Id     uint `v:"min:1#请选择需要删除的Permission" dc:"Permissionid"`
 }
 
