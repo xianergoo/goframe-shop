@@ -3,6 +3,7 @@ package category
 import (
 	"context"
 	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/os/glog"
 	"goframe-shop/internal/dao"
 	"goframe-shop/internal/model"
 	"goframe-shop/internal/service"
@@ -19,6 +20,7 @@ func New() *sCategory {
 }
 
 func (s *sCategory) Create(ctx context.Context, in model.CategoryCreateInput) (out model.CategoryCreateOutput, err error) {
+	glog.Info(ctx, in)
 	lastInsertID, err := dao.CategoryInfo.Ctx(ctx).Data(in).InsertAndGetId()
 	if err != nil {
 		return out, err

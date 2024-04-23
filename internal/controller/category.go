@@ -2,6 +2,7 @@ package controller
 
 import (
 	"context"
+	"github.com/gogf/gf/v2/os/glog"
 	"goframe-shop/api/backend"
 	"goframe-shop/internal/model"
 	"goframe-shop/internal/service"
@@ -14,6 +15,7 @@ var Category = cCategory{}
 type cCategory struct{}
 
 func (a *cCategory) Create(ctx context.Context, req *backend.CategoryReq) (res *backend.CategoryRes, err error) {
+	glog.Info(ctx, req)
 	out, err := service.Category().Create(ctx, model.CategoryCreateInput{
 		CategoryCreateUpdateBase: model.CategoryCreateUpdateBase{
 			ParentId: req.ParentId,
