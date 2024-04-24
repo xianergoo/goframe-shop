@@ -2,10 +2,11 @@ package controller
 
 import (
 	"context"
-	"github.com/gogf/gf/v2/os/glog"
 	"goframe-shop/api/backend"
 	"goframe-shop/internal/model"
 	"goframe-shop/internal/service"
+
+	"github.com/gogf/gf/v2/os/glog"
 )
 
 // Category 承上启下
@@ -63,5 +64,17 @@ func (a *cCategory) List(ctx context.Context, req *backend.CategoryGetListCommon
 	return &backend.CategoryGetListCommonRes{List: getListRes.List,
 		Page:  getListRes.Page,
 		Size:  getListRes.Size,
+		Total: getListRes.Total}, nil
+}
+
+func (a *cCategory) ListAll(ctx context.Context, req *backend.CategoryGetListAllCommonReq) (res *backend.CategoryGetListAllCommonRes, err error) {
+	getListRes, err := service.Category().GetListAll(ctx, model.CategoryGetListInput{
+		Sort: req.Sort,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return &backend.CategoryGetListAllCommonRes{List: getListRes.List,
 		Total: getListRes.Total}, nil
 }

@@ -2,11 +2,12 @@ package category
 
 import (
 	"context"
-	"github.com/gogf/gf/v2/frame/g"
-	"github.com/gogf/gf/v2/os/glog"
 	"goframe-shop/internal/dao"
 	"goframe-shop/internal/model"
 	"goframe-shop/internal/service"
+
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/os/glog"
 )
 
 type sCategory struct{}
@@ -48,8 +49,8 @@ func (s *sCategory) Update(ctx context.Context, in model.CategoryUpdateInput) er
 	return err
 }
 
-// GetList 查询内容列表
 func (s *sCategory) GetList(ctx context.Context, in model.CategoryGetListInput) (out *model.CategoryGetListOutput, err error) {
+	// 分页查询
 	//1.获得*gdb.Model对象，方面后续调用
 	m := dao.CategoryInfo.Ctx(ctx)
 	//2. 实例化响应结构体
@@ -71,4 +72,36 @@ func (s *sCategory) GetList(ctx context.Context, in model.CategoryGetListInput) 
 		return out, err
 	}
 	return
+
+}
+
+// GetList 查询内容列表
+func (s *sCategory) GetListAll(ctx context.Context, in model.CategoryGetListInput) (out *model.CategoryGetListOutput, err error) {
+
+	//查询全部
+	m := dao.CategoryInfo.Ctx(ctx)
+	out = &model.CategoryGetListOutput{}
+
+	listModel := m
+	listModel = listModel.OrderDesc(dao.CategoryInfo.Columns().Sort)
+	/*
+		//
+		var list []*entity.CategoryInfo
+		if err := listModel.Scan(&list); err != nil {
+			return out, err
+		}
+
+		if len(list) == 0 {
+			return out, nil
+		} */
+	out.Total, err = m.Count()
+	if err != nil {
+		return out, err
+	}
+
+	if err := listModel.Scan(&out.List); err != nil {
+		return out, err
+	}
+	return
+
 }
