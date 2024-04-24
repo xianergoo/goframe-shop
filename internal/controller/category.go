@@ -68,9 +68,7 @@ func (a *cCategory) List(ctx context.Context, req *backend.CategoryGetListCommon
 }
 
 func (a *cCategory) ListAll(ctx context.Context, req *backend.CategoryGetListAllCommonReq) (res *backend.CategoryGetListAllCommonRes, err error) {
-	getListRes, err := service.Category().GetListAll(ctx, model.CategoryGetListInput{
-		Sort: req.Sort,
-	})
+	getListRes, err := service.Category().GetListAll(ctx, model.CategoryGetListInput{})
 	if err != nil {
 		return nil, err
 	}

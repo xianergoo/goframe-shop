@@ -2,16 +2,18 @@ package cmd
 
 import (
 	"context"
+	"goframe-shop/internal/consts"
+
 	"github.com/goflyfox/gtoken/gtoken"
 	_ "github.com/gogf/gf/contrib/drivers/mysql/v2"
 	"github.com/gogf/gf/v2/frame/g"
-	"goframe-shop/internal/consts"
 
-	"github.com/gogf/gf/v2/net/ghttp"
-	"github.com/gogf/gf/v2/os/gcmd"
 	"goframe-shop/internal/controller"
 	_ "goframe-shop/internal/logic"
 	"goframe-shop/internal/service"
+
+	"github.com/gogf/gf/v2/net/ghttp"
+	"github.com/gogf/gf/v2/os/gcmd"
 )
 
 var gfToken *gtoken.GfToken
@@ -64,6 +66,7 @@ var (
 						controller.File,     //文件上传
 						controller.Upload,   //文件上传云平台
 						controller.Category, //商品分类
+						controller.Coupon,
 					)
 				})
 			})

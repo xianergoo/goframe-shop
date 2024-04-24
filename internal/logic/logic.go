@@ -9,6 +9,7 @@ import (
 	_ "goframe-shop/internal/logic/rotation"
 
 	_ "goframe-shop/internal/logic/category"
+	_ "goframe-shop/internal/logic/coupon"
 	_ "goframe-shop/internal/logic/file"
 	_ "goframe-shop/internal/logic/permission"
 	_ "goframe-shop/internal/logic/role"

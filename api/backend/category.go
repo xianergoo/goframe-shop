@@ -6,10 +6,10 @@ import (
 
 type CategoryReq struct {
 	g.Meta `path:"/category/add" tags:"category" method:"post" summary:"category add"`
-	CommonAddUpdate
+	CategoryReqCommonAddUpdate
 }
 
-type CommonAddUpdate struct {
+type CategoryReqCommonAddUpdate struct {
 	ParentId uint   `json:"parentId" dc:"父级分类ID"`
 	Name     string `json:"name" v:"required#名称必填" dc:"分类名称"`
 	PicUrl   string `json:"pic_url"    v:"required#图片链接不能为空"      dc:"图片"`
@@ -30,7 +30,7 @@ type CategoryDeleteRes struct{}
 type CategoryUpdateReq struct {
 	g.Meta `path:"/category/update/{Id}" method:"post" tags:"category" summary:"category modify"`
 	Id     uint `json:"id"    v:"required#id不能为空"      dc:"category id"`
-	CommonAddUpdate
+	CategoryReqCommonAddUpdate
 }
 type CategoryUpdateRes struct {
 	Id uint `json:"id" `
