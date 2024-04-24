@@ -67,6 +67,7 @@ var (
 						controller.Upload,   //文件上传云平台
 						controller.Category, //商品分类
 						controller.Coupon,
+						controller.UserCoupon,
 					)
 				})
 			})

@@ -14,4 +14,5 @@ import (
 	_ "goframe-shop/internal/logic/permission"
 	_ "goframe-shop/internal/logic/role"
 	_ "goframe-shop/internal/logic/session"
+	_ "goframe-shop/internal/logic/user_coupon"
 )
