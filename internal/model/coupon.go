@@ -45,8 +45,8 @@ type CouponGetListOutputItem struct {
 	Id         uint        `json:"id"`
 	Name       string      `json:"name"`
 	Price      int         `json:"price"`
-	GoodsIds   string      `json:"level"`      //级别
-	CategoryId uint        `json:"sort"`       // 排序，数值越低越靠前，默认为添加时的时间戳，可用于置顶
+	GoodsIds   string      `json:"goods_ids"`
+	CategoryId uint        `json:"category_id"`
 	CreatedAt  *gtime.Time `json:"created_at"` // 创建时间
 	UpdatedAt  *gtime.Time `json:"updated_at"` // 修改时间
 }
