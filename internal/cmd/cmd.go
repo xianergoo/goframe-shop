@@ -36,19 +36,13 @@ var (
 				group.Middleware(
 					service.Middleware().CORS,
 					service.Middleware().ResponseHandler,
-					service.Middleware().Ctx)
+					service.Middleware().Ctx,
+				)
 
 				// 不需要登陆的路由组
 				group.Bind(
-					controller.Rotation,
-					controller.Position,
 					controller.Admin.Create,
-					controller.Admin.Update,
-					controller.Admin.Delete,
-					controller.Admin.List,
-					controller.Login.RefreshToken,
-					controller.Role,
-					controller.Permission,
+					controller.Login,
 				)
 
 				//需要登陆的路由组
@@ -58,21 +52,52 @@ var (
 					if err != nil {
 						panic(err)
 					}
-					group.ALLMap(g.Map{
-						"/admin/info": controller.Admin.Info,
-					})
 
 					group.Bind(
+						controller.Admin.Update,
+						controller.Admin.Delete,
+						controller.Admin.List,
+						controller.Admin.Info,
+						controller.Role,
+						controller.Permission,
+						controller.Rotation,
+						controller.Position,
 						controller.File,     //文件上传
 						controller.Upload,   //文件上传云平台
 						controller.Category, //商品分类
 						controller.Coupon,
 						controller.UserCoupon,
+						controller.Goods,
+						controller.GoodsOptions,
+						controller.Article,
 					)
 				})
 			})
 
+			frontToken, err := StartFrontGToken()
+			if err != nil {
+				return err
+			}
 			s.Group("/frontend", func(group *ghttp.RouterGroup) {
+				group.Middleware(
+					service.Middleware().CORS,
+					service.Middleware().ResponseHandler,
+					service.Middleware().Ctx,
+				)
+				group.Bind(
+					//todo
+					controller.User.Register,
+				)
+
+				group.Group("/" func(grouo *ghttp.RouterGroup) {
+					err := frontToken.Middleware(ctx, group)
+					if err != nil {
+						return  err
+					}
+					group.Bind(
+						controller.User.
+					)
+				})
 			})
 			s.Run()
 			return nil

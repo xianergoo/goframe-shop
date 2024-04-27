@@ -1,0 +1,17 @@
+package model
+
+// UserLoginInput 用户登录
+type RegisterInput struct {
+	Name         string `json:"name"         description:"用户名" v:"required#Name is required"`
+	Avatar       string `json:"avatar"       description:"头像"`
+	Password     string `json:"password"     description:"" v:"password"`
+	UserSalt     string `json:"userSalt"     description:"加密盐 生成密码用"`
+	Sex          int    `json:"sex"          description:"1男 2女"`
+	Status       int    `json:"status"       description:"1正常 2拉黑冻结"`
+	Sign         string `json:"sign"         description:"个性签名"`
+	SecretAnswer string `json:"secretAnswer" description:"密保问题的答案"`
+}
+
+type RegisterOutput struct {
+	Id uint
+}

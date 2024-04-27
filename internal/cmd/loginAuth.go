@@ -2,11 +2,6 @@ package cmd
 
 import (
 	"context"
-	"github.com/goflyfox/gtoken/gtoken"
-	"github.com/gogf/gf/v2/frame/g"
-	"github.com/gogf/gf/v2/net/ghttp"
-	"github.com/gogf/gf/v2/text/gstr"
-	"github.com/gogf/gf/v2/util/gconv"
 	"goframe-shop/api/backend"
 	"goframe-shop/internal/consts"
 	"goframe-shop/internal/dao"
@@ -14,10 +9,15 @@ import (
 	"goframe-shop/utility"
 	"goframe-shop/utility/response"
 	"strconv"
+
+	"github.com/goflyfox/gtoken/gtoken"
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/net/ghttp"
+	"github.com/gogf/gf/v2/text/gstr"
+	"github.com/gogf/gf/v2/util/gconv"
 )
 
 // 管理后台相关
-
 func StartBackendGToken() (gfAdminToken *gtoken.GfToken, err error) {
 	gfAdminToken = &gtoken.GfToken{
 		ServerName:       "shop",
@@ -31,8 +31,27 @@ func StartBackendGToken() (gfAdminToken *gtoken.GfToken, err error) {
 		MultiLogin:       consts.MultiLogin,
 		AuthAfterFunc:    authAfterFunc,
 	}
-
+	//todo 去掉全局校验
 	err = gfAdminToken.Start()
+	return
+}
+
+// front
+func StartFrontGToken() (gfAdminToken *gtoken.GfToken, err error) {
+	gfToken = &gtoken.GfToken{
+		ServerName:       "shop",
+		CacheMode:        consts.CacheModeRedis, //缓存模式 1 gcache 2 gredis 3 fileCache
+		LoginPath:        "/login",
+		LoginBeforeFunc:  loginFunc,
+		LoginAfterFunc:   loginAfterFunc,
+		LogoutPath:       "/logout",
+		AuthPaths:        g.SliceStr{"/admin/info"},
+		AuthExcludePaths: g.SliceStr{"/user/info", "/system/user/info"}, // 不拦截路径 /user/info,/system/user/info,/system/user,
+		MultiLogin:       consts.MultiLogin,
+		AuthAfterFunc:    authAfterFunc,
+	}
+	//todo 去掉全局校验
+	// err = gfAdminToken.Start()
 	return
 }
 

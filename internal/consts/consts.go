@@ -27,7 +27,7 @@ const (
 	CacheModeRedis     = 2
 	BackendServerName  = "开源电商系统"
 	MultiLogin         = true
-	FrontendMultiLogin = true
+	FrontendMultiLogin = false
 	GTokenExpireIn     = 10 * 24 * 60 * 60
 	//统一管理错误提示
 	CodeMissingParameterMsg = "请检查是否缺少参数"

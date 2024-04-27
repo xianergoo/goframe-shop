@@ -1,4 +1,4 @@
-package position
+package user_coupon
 
 import (
 	"context"
