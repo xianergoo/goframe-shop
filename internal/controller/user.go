@@ -8,6 +8,7 @@ import (
 	"goframe-shop/internal/model"
 	"goframe-shop/internal/service"
 
+	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/util/gconv"
 )
 
@@ -42,9 +43,17 @@ func (a *cUser) Info(ctx context.Context, req *frontend.UserInfoReq) (res *front
 
 }
 
-// Id     uint   `json:"id"`
-// 	Name   string `json:"name"`
-// 	Avatar string `json:"avatar"`
-// 	Sex    uint8  `json:"sex"`
-// 	Sign   string `json:"sign"`
-// 	Status uint8  `json:"status"`
+func (a *cUser) UpdatePassword(ctx context.Context, req *frontend.UpdatePasswordReq) (res *frontend.UpdatePasswordRes, err error) {
+	g.Dump(req)
+	data := model.UpdatePasswordInput{}
+	err = gconv.Struct(req, &data)
+	if err != nil {
+		return nil, err
+	}
+	out, err := service.User().UpdatePassword(ctx, data)
+	if err != nil {
+		return nil, err
+	}
+	return &frontend.UpdatePasswordRes{Id: out.Id}, err
+
+}

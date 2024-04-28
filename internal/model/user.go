@@ -20,3 +20,13 @@ type LoginInput struct {
 	Name     string `json:"name"         description:"用户名" `
 	Password string `json:"password"`
 }
+
+type UpdatePasswordInput struct {
+	Password     string `json:"password"     description:"" v:"password"`
+	UserSalt     string `json:"userSalt,omitempty"     description:"加密盐 生成密码用"`
+	SecretAnswer string `json:"secretAnswer" description:"密保问题的答案"`
+}
+
+type UpdatePasswordOutput struct {
+	Id uint
+}

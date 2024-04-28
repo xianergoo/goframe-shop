@@ -59,11 +59,6 @@ func (s *sAdmin) Delete(ctx context.Context, id uint) error {
 // Update 修改
 func (s *sAdmin) Update(ctx context.Context, in model.AdminUpdateInput) error {
 	return dao.AdminInfo.Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
-		// 不允许HTML代码
-		if err := ghtml.SpecialCharsMapOrStruct(in); err != nil {
-			return err
-		}
-
 		//判断是否修改了密码
 		if in.Password != "" {
 			UserSalt := grand.S(10)
