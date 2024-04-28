@@ -8,7 +8,6 @@ import (
 	"goframe-shop/internal/model"
 	"goframe-shop/internal/service"
 
-	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/util/gconv"
 )
 
@@ -44,7 +43,9 @@ func (a *cUser) Info(ctx context.Context, req *frontend.UserInfoReq) (res *front
 }
 
 func (a *cUser) UpdatePassword(ctx context.Context, req *frontend.UpdatePasswordReq) (res *frontend.UpdatePasswordRes, err error) {
-	g.Dump(req)
+	//todo missing direct this api
+	//log : 2024-04-28 23:32:04.930 [DEBU] {28e953056f7bca1744963e246f2d6168} [  2 ms] [default] [shop] [rows:1  ]
+	//      SELECT `id`,`name`,`avatar`,`password`,`user_salt`,`sex`,`status`,`sign`,`secret_answer`,`created_at`,`updated_at`,`deleted_at` FROM `user_info` WHERE (`id`='8') AND `deleted_at` IS NULL LIMIT 1
 	data := model.UpdatePasswordInput{}
 	err = gconv.Struct(req, &data)
 	if err != nil {
