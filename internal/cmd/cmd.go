@@ -95,7 +95,7 @@ var (
 						return
 					}
 					group.Bind(
-					// controller.User,
+						controller.User.Info,
 					)
 				})
 			})

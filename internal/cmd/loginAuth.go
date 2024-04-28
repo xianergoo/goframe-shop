@@ -49,7 +49,7 @@ func StartFrontGToken() (gfToken *gtoken.GfToken, err error) {
 		// AuthPaths:        g.SliceStr{"/admin/info"},
 		// AuthExcludePaths: g.SliceStr{"/user/info", "/system/user/info"}, // 不拦截路径 /user/info,/system/user/info,/system/user,
 		MultiLogin:    consts.FrontendMultiLogin,
-		AuthAfterFunc: authAfterFunc,
+		AuthAfterFunc: loginAfterFuncFront,
 	}
 	//todo 去掉全局校验
 	// err = gfToken.Start()
@@ -91,13 +91,14 @@ func loginFuncFrontend(r *ghttp.Request) (string, interface{}) {
 	password := r.Get("password").String()
 	ctx := context.TODO()
 
+	g.Log().Debug(ctx, password)
 	if name == "" || password == "" {
 		r.Response.WriteJson(gtoken.Fail(consts.ErrLoginFaulMsg))
 		r.ExitAll()
 	}
 
 	userInfo := entity.UserInfo{}
-	err := dao.AdminInfo.Ctx(ctx).Where("name", name).Scan(
+	err := dao.UserInfo.Ctx(ctx).Where("name", name).Scan(
 		&userInfo)
 	if err != nil {
 		r.Response.WriteJson(gtoken.Fail(consts.ErrLoginFaulMsg))
@@ -204,5 +205,23 @@ func authAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 	r.SetCtxVar(consts.CtxAdminName, adminInfo.Name)
 	r.SetCtxVar(consts.CtxAdminIsAdmin, adminInfo.IsAdmin)
 	r.SetCtxVar(consts.CtxAdminRoleIds, adminInfo.RoleIds)
+	r.Middleware.Next()
+}
+
+func authAfterFuncFrontend(r *ghttp.Request, respData gtoken.Resp) {
+	var userInfo entity.UserInfo
+	err := gconv.Struct(respData.GetString("data"), &userInfo)
+	if err != nil {
+		response.Auth(r)
+		return
+	}
+
+	//todo 这里可以写账号前置校验、是否被拉黑、有无权限等逻辑
+	r.SetCtxVar(consts.CtxUserId, userInfo.Id)
+	r.SetCtxVar(consts.CtxUserName, userInfo.Name)
+	r.SetCtxVar(consts.CtxUserAvatar, userInfo.Avatar)
+	r.SetCtxVar(consts.CtxUserSex, userInfo.Sex)
+	r.SetCtxVar(consts.CtxUserSign, userInfo.Sign)
+	r.SetCtxVar(consts.CtxUserStatus, userInfo.Status)
 	r.Middleware.Next()
 }

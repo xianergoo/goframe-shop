@@ -36,3 +36,22 @@ type LoginRes struct {
 	Sex      uint8  `json:"sex"`
 	Sign     string `json:"sign"`
 }
+
+type UserInfoReq struct {
+	g.Meta `path:"/user/info" method:"get" tags:"front" summary:"user info"`
+}
+
+// for gtoken
+type UserInfoRes struct {
+	UserInfoBase
+}
+
+// 可以复用的，一定要抽取出来
+type UserInfoBase struct {
+	Id     uint   `json:"id"`
+	Name   string `json:"name"`
+	Avatar string `json:"avatar"`
+	Sex    uint8  `json:"sex"`
+	Sign   string `json:"sign"`
+	Status uint8  `json:"status"`
+}
