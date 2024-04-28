@@ -2,7 +2,7 @@ package model
 
 // UserLoginInput 用户登录
 type RegisterInput struct {
-	Name         string `json:"name"         description:"用户名" v:"required#Name is required"`
+	Name         string `json:"name"         description:"用户名" `
 	Avatar       string `json:"avatar"       description:"头像"`
 	Password     string `json:"password"     description:"" v:"password"`
 	UserSalt     string `json:"userSalt"     description:"加密盐 生成密码用"`
@@ -14,4 +14,9 @@ type RegisterInput struct {
 
 type RegisterOutput struct {
 	Id uint
+}
+
+type LoginInput struct {
+	Name     string `json:"name"         description:"用户名" `
+	Password string `json:"password"`
 }

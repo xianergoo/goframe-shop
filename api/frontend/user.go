@@ -1,13 +1,11 @@
 package frontend
 
 import (
-	"time"
-
 	"github.com/gogf/gf/v2/frame/g"
 )
 
 type RegisterUserReq struct {
-	g.Meta       `path:"/register" method:"post" tags:"front" summary:"register user"`
+	g.Meta       `path:"/register" method:"post" tags:"front" summary:"user register"`
 	Name         string `json:"name"         description:"用户名" v:"required#Name is required"`
 	Avatar       string `json:"avatar"       description:"头像"`
 	Password     string `json:"password"     description:"" v:"password"`
@@ -23,16 +21,18 @@ type RegisterUserRes struct {
 }
 
 type LoginReq struct {
-	g.Meta   `path:"/login" method:"post" summary:"执行登录请求"`
+	g.Meta   `path:"/login" method:"post" tags:front"" summary:"user login"`
 	Name     string `json:"passport" v:"required#请输入账号"   dc:"账号"`
-	Password string `json:"password" v:"required#请输入密码"   dc:"密码(明文)"`
-	//Captcha  string `json:"captcha"  v:"required#请输入验证码" dc:"验证码"`
+	Password string `json:"password" v:"password"   dc:"密码(明文)"`
 }
 
-// for jwt
+// for gtoken
 type LoginRes struct {
-	//Info interface{} `json:"info"`
-	//Referer string `json:"referer" dc:"引导客户端跳转地址"`
-	Token  string    `json:"token"`
-	Expire time.Time `json:"expire"`
+	Type     string `json:"type"`
+	Token    string `json:"token"`
+	ExpireIn int    `json:"expire_in"`
+	Name     string `json:"name"`
+	Avatar   string `json:"avatar"`
+	Sex      uint8  `json:"sex"`
+	Sign     string `json:"sign"`
 }

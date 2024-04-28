@@ -89,13 +89,13 @@ var (
 					controller.User.Register,
 				)
 
-				group.Group("/" func(grouo *ghttp.RouterGroup) {
+				group.Group("/", func(grouo *ghttp.RouterGroup) {
 					err := frontToken.Middleware(ctx, group)
 					if err != nil {
-						return  err
+						return
 					}
 					group.Bind(
-						controller.User.
+					// controller.User,
 					)
 				})
 			})

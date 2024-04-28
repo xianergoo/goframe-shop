@@ -3,6 +3,7 @@ package cmd
 import (
 	"context"
 	"goframe-shop/api/backend"
+	"goframe-shop/api/frontend"
 	"goframe-shop/internal/consts"
 	"goframe-shop/internal/dao"
 	"goframe-shop/internal/model/entity"
@@ -37,24 +38,25 @@ func StartBackendGToken() (gfAdminToken *gtoken.GfToken, err error) {
 }
 
 // front
-func StartFrontGToken() (gfAdminToken *gtoken.GfToken, err error) {
+func StartFrontGToken() (gfToken *gtoken.GfToken, err error) {
 	gfToken = &gtoken.GfToken{
-		ServerName:       "shop",
-		CacheMode:        consts.CacheModeRedis, //缓存模式 1 gcache 2 gredis 3 fileCache
-		LoginPath:        "/login",
-		LoginBeforeFunc:  loginFunc,
-		LoginAfterFunc:   loginAfterFunc,
-		LogoutPath:       "/logout",
-		AuthPaths:        g.SliceStr{"/admin/info"},
-		AuthExcludePaths: g.SliceStr{"/user/info", "/system/user/info"}, // 不拦截路径 /user/info,/system/user/info,/system/user,
-		MultiLogin:       consts.MultiLogin,
-		AuthAfterFunc:    authAfterFunc,
+		ServerName:      "shop",
+		CacheMode:       consts.CacheModeRedis, //缓存模式 1 gcache 2 gredis 3 fileCache
+		LoginPath:       "/login",
+		LoginBeforeFunc: loginFuncFrontend,
+		LoginAfterFunc:  loginAfterFuncFront,
+		LogoutPath:      "/logout",
+		// AuthPaths:        g.SliceStr{"/admin/info"},
+		// AuthExcludePaths: g.SliceStr{"/user/info", "/system/user/info"}, // 不拦截路径 /user/info,/system/user/info,/system/user,
+		MultiLogin:    consts.FrontendMultiLogin,
+		AuthAfterFunc: authAfterFunc,
 	}
 	//todo 去掉全局校验
-	// err = gfAdminToken.Start()
+	// err = gfToken.Start()
 	return
 }
 
+// for backend
 func loginFunc(r *ghttp.Request) (string, interface{}) {
 	name := r.Get("name").String()
 	password := r.Get("password").String()
@@ -83,7 +85,36 @@ func loginFunc(r *ghttp.Request) (string, interface{}) {
 	return consts.GtokenAdminPrefix + strconv.Itoa(adminInfo.Id), adminInfo
 }
 
-// 自定义的登录之后的函数
+// for front
+func loginFuncFrontend(r *ghttp.Request) (string, interface{}) {
+	name := r.Get("name").String()
+	password := r.Get("password").String()
+	ctx := context.TODO()
+
+	if name == "" || password == "" {
+		r.Response.WriteJson(gtoken.Fail(consts.ErrLoginFaulMsg))
+		r.ExitAll()
+	}
+
+	userInfo := entity.UserInfo{}
+	err := dao.AdminInfo.Ctx(ctx).Where("name", name).Scan(
+		&userInfo)
+	if err != nil {
+		r.Response.WriteJson(gtoken.Fail(consts.ErrLoginFaulMsg))
+		r.ExitAll()
+	}
+
+	if utility.EncryptPassword(password, userInfo.UserSalt) != userInfo.Password {
+		r.Response.WriteJson(gtoken.Fail(consts.ErrLoginFaulMsg))
+		r.ExitAll()
+	}
+
+	g.Log().Info(context.Background(), "debuginfo")
+	// 唯一标识，扩展参数user data
+	return consts.GTokenFrontendPrefix + strconv.Itoa(userInfo.Id), userInfo
+}
+
+// 自定义的登录之后的函数 for backend
 func loginAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 	if !respData.Success() {
 		respData.Code = 0
@@ -124,6 +155,37 @@ func loginAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 			IsAdmin:     adminInfo.IsAdmin,
 			RoleIds:     adminInfo.RoleIds,
 			Permissions: permissions,
+		}
+		response.JsonExit(r, 0, "", data)
+	}
+}
+
+// 自定义的登录之后的函数 for backend
+func loginAfterFuncFront(r *ghttp.Request, respData gtoken.Resp) {
+	if !respData.Success() {
+		respData.Code = 0
+		r.Response.WriteJson(respData)
+		return
+	} else {
+		respData.Code = 1
+		//获得登录用户id
+		userKey := respData.GetString("userKey")
+		userId := gstr.StrEx(userKey, consts.GTokenFrontendPrefix)
+		//根据id获得登录用户其他信息
+		userInfo := entity.UserInfo{}
+		err := dao.UserInfo.Ctx(context.TODO()).WherePri(userId).Scan(&userInfo)
+		if err != nil {
+			return
+		}
+
+		data := &frontend.LoginRes{
+			Type:     consts.TokenType,
+			Token:    respData.GetString("token"),
+			ExpireIn: consts.GTokenExpireIn, //单位秒,
+			Name:     userInfo.Name,
+			Avatar:   userInfo.Avatar,
+			Sex:      uint8(userInfo.Sex),
+			Sign:     userInfo.Sign,
 		}
 		response.JsonExit(r, 0, "", data)
 	}
