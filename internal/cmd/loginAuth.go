@@ -40,7 +40,7 @@ func StartBackendGToken() (gfAdminToken *gtoken.GfToken, err error) {
 // front
 func StartFrontGToken() (gfToken *gtoken.GfToken, err error) {
 	gfToken = &gtoken.GfToken{
-		ServerName:      "shop",
+		ServerName:      "shop2",
 		CacheMode:       consts.CacheModeRedis, //缓存模式 1 gcache 2 gredis 3 fileCache
 		LoginPath:       "/login",
 		LoginBeforeFunc: loginFuncFrontend,
@@ -49,7 +49,7 @@ func StartFrontGToken() (gfToken *gtoken.GfToken, err error) {
 		// AuthPaths:        g.SliceStr{"/admin/info"},
 		// AuthExcludePaths: g.SliceStr{"/user/info", "/system/user/info"}, // 不拦截路径 /user/info,/system/user/info,/system/user,
 		MultiLogin:    consts.FrontendMultiLogin,
-		AuthAfterFunc: loginAfterFuncFront,
+		AuthAfterFunc: authAfterFuncFrontend,
 	}
 	//todo 去掉全局校验
 	// err = gfToken.Start()
@@ -91,7 +91,7 @@ func loginFuncFrontend(r *ghttp.Request) (string, interface{}) {
 	password := r.Get("password").String()
 	ctx := context.TODO()
 
-	g.Log().Debug(ctx, password)
+	g.Log().Debug(ctx, password, "loginFuncFrontend testinfo")
 	if name == "" || password == "" {
 		r.Response.WriteJson(gtoken.Fail(consts.ErrLoginFaulMsg))
 		r.ExitAll()

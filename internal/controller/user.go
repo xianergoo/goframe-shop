@@ -8,6 +8,7 @@ import (
 	"goframe-shop/internal/model"
 	"goframe-shop/internal/service"
 
+	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/util/gconv"
 )
 
@@ -31,6 +32,7 @@ func (a *cUser) Register(ctx context.Context, req *frontend.RegisterUserReq) (re
 }
 
 func (a *cUser) Info(ctx context.Context, req *frontend.UserInfoReq) (res *frontend.UserInfoRes, err error) {
+	g.Log().Debug(ctx, req, "controler.Info")
 	res = &frontend.UserInfoRes{}
 	res.Id = gconv.Uint(ctx.Value(consts.CtxUserId))
 	res.Name = gconv.String(ctx.Value(consts.CtxUserName))
@@ -38,6 +40,7 @@ func (a *cUser) Info(ctx context.Context, req *frontend.UserInfoReq) (res *front
 	res.Sex = gconv.Uint8(ctx.Value(consts.CtxUserSex))
 	res.Sign = gconv.String(ctx.Value(consts.CtxUserSign))
 	res.Status = gconv.Uint8(ctx.Value(consts.CtxUserStatus))
+	g.Log().Debug(ctx, res, "controler.Info")
 	return res, nil
 
 }
@@ -46,6 +49,7 @@ func (a *cUser) UpdatePassword(ctx context.Context, req *frontend.UpdatePassword
 	//todo missing direct this api
 	//log : 2024-04-28 23:32:04.930 [DEBU] {28e953056f7bca1744963e246f2d6168} [  2 ms] [default] [shop] [rows:1  ]
 	//      SELECT `id`,`name`,`avatar`,`password`,`user_salt`,`sex`,`status`,`sign`,`secret_answer`,`created_at`,`updated_at`,`deleted_at` FROM `user_info` WHERE (`id`='8') AND `deleted_at` IS NULL LIMIT 1
+	g.Log().Debug(ctx, req, "controller.UpdatePassword")
 	data := model.UpdatePasswordInput{}
 	err = gconv.Struct(req, &data)
 	if err != nil {
