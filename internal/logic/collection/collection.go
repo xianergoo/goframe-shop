@@ -2,6 +2,7 @@ package collection
 
 import (
 	"context"
+	"github.com/gogf/gf/v2/frame/g"
 	"goframe-shop/internal/consts"
 	"goframe-shop/internal/dao"
 	"goframe-shop/internal/model"
@@ -69,6 +70,10 @@ func (s *sCollection) GetList(ctx context.Context, in model.CollectionListInput)
 	}
 	//3. 分页查询
 	listModel := m.Page(in.Page, in.Size)
+	// filter
+	if in.Type != 0 {
+		listModel = listModel.Where(dao.CollectionInfo.Columns().Type, in.Type)
+	}
 	//4. 再查询count，判断有无数据
 	out.Total, err = m.Count()
 	if err != nil || out.Total == 0 {
@@ -77,9 +82,43 @@ func (s *sCollection) GetList(ctx context.Context, in model.CollectionListInput)
 	//5. 延迟初始化list切片 确定有数据，再按期望大小初始化切片容量
 	out.List = make([]model.CollectionListOutputItem, 0, in.Size)
 	//6. 把查询到的结果赋值到响应结构体中
-	if err := listModel.WithAll().Scan(&out.List); err != nil {
-		return out, err
+	g.Dump(in)
+	if in.Type == consts.CollectionTypeGoods {
+		if err := listModel.With(model.GoodsItem{}).Scan(&out.List); err != nil {
+			return out, err
+		}
+	} else if in.Type == consts.CollectionTypeArticle {
+		if err := listModel.With(model.ArticleItem{}).Scan(&out.List); err != nil {
+			return out, err
+		}
 	}
 	return
 
+}
+
+func CollectionCount(ctx context.Context, objectId uint, collectionType uint) (count int, err error) {
+	col := dao.CollectionInfo.Columns()
+	condition := g.Map{
+		col.ObjectId: objectId,
+		col.Type:     collectionType,
+	}
+	count, err = dao.CollectionInfo.Ctx(ctx).Where(condition).Count()
+	if err != nil {
+		return 0, err
+	}
+	return count, err
+}
+
+func CheckIsCollect(ctx context.Context, in model.CheckIsCollectInput) (bool, error) {
+	col := dao.CollectionInfo.Columns()
+	condition := g.Map{
+		col.UserId:   ctx.Value(consts.CtxUserId),
+		col.ObjectId: in.ObjectId,
+		col.Type:     in.Type,
+	}
+	count, err := dao.CollectionInfo.Ctx(ctx).Where(condition).Count()
+	if err != nil {
+		return false, err
+	}
+	return count > 0, err
 }
