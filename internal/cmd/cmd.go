@@ -4,7 +4,6 @@ import (
 	"context"
 	"goframe-shop/internal/consts"
 
-	"github.com/goflyfox/gtoken/gtoken"
 	_ "github.com/gogf/gf/contrib/drivers/mysql/v2"
 	"github.com/gogf/gf/v2/frame/g"
 
@@ -16,9 +15,6 @@ import (
 	"github.com/gogf/gf/v2/os/gcmd"
 )
 
-var gfToken *gtoken.GfToken
-var gfAdminToken *gtoken.GfToken
-
 var (
 	Main = gcmd.Command{
 		Name:  consts.ProjectName,
@@ -27,7 +23,7 @@ var (
 		Func: func(ctx context.Context, parser *gcmd.Parser) (err error) {
 			s := g.Server()
 
-			gfAdminToken, err = StartBackendGToken()
+			gfAdminToken, err := StartBackendGToken()
 			if err != nil {
 				return err
 			}
@@ -98,6 +94,8 @@ var (
 						controller.User.Info,
 						controller.User.UpdatePassword,
 						controller.Collection,
+						controller.Praise,
+						controller.Comment,
 					)
 				})
 			})

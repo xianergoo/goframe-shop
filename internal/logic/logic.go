@@ -20,4 +20,6 @@ import (
 	_ "goframe-shop/internal/logic/user_coupon"
 
 	_ "goframe-shop/internal/logic/collection"
+	_ "goframe-shop/internal/logic/comment"
+	_ "goframe-shop/internal/logic/praise"
 )
