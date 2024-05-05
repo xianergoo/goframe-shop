@@ -18,4 +18,6 @@ import (
 	_ "goframe-shop/internal/logic/session"
 	_ "goframe-shop/internal/logic/user"
 	_ "goframe-shop/internal/logic/user_coupon"
+
+	_ "goframe-shop/internal/logic/collection"
 )

@@ -97,6 +97,7 @@ var (
 					group.Bind(
 						controller.User.Info,
 						controller.User.UpdatePassword,
+						controller.Collection,
 					)
 				})
 			})
