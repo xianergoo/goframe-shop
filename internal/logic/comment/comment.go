@@ -78,7 +78,6 @@ func (s *sComment) GetList(ctx context.Context, in model.CommentListInput) (out 
 	//5. 延迟初始化list切片 确定有数据，再按期望大小初始化切片容量
 	out.List = make([]model.CommentListOutputItem, 0, in.Size)
 	//6. 把查询到的结果赋值到响应结构体中
-	g.Dump(in)
 	if in.Type == consts.CommentTypeGoods {
 		if err := listModel.With(model.GoodsItem{}).Scan(&out.List); err != nil {
 			return out, err

@@ -73,3 +73,14 @@ func (s *sGoods) GetList(ctx context.Context, in model.GoodsGetListInput) (out *
 	}
 	return
 }
+
+// Get good detail
+func (s *sGoods) GetDetail(ctx context.Context, in model.GoodsDetailInput) (out *model.GoodsDetailOutput, err error) {
+	m := dao.GoodsInfo.Ctx(ctx)
+	out = &model.GoodsDetailOutput{}
+	err = m.WithAll().WherePri(in.Id).Scan(out)
+	if err != nil {
+		return out, err
+	}
+	return
+}

@@ -1,5 +1,7 @@
 package model
 
+import "github.com/gogf/gf/v2/frame/g"
+
 // UserLoginInput 用户登录
 type RegisterInput struct {
 	Name         string `json:"name"         description:"用户名" `
@@ -29,4 +31,14 @@ type UpdatePasswordInput struct {
 
 type UpdatePasswordOutput struct {
 	Id uint
+}
+
+type UserInfoBase struct {
+	g.Meta `orm:"table:user_info"`
+	Id     uint   `json:"id"`
+	Name   string `json:"name"`
+	Avatar string `json:"avatar"`
+	Sex    uint8  `json:"sex"`
+	Sign   string `json:"sign"`
+	Status uint8  `json:"status"`
 }

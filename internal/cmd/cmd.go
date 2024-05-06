@@ -63,7 +63,10 @@ var (
 						controller.Category, //商品分类
 						controller.Coupon,
 						controller.UserCoupon,
-						controller.Goods,
+						controller.Goods.Create,
+						controller.Goods.Update,
+						controller.Goods.Delete,
+						controller.Goods.List,
 						controller.GoodsOptions,
 						controller.Article,
 					)
@@ -83,6 +86,8 @@ var (
 				group.Bind(
 					//todo
 					controller.User.Register,
+					controller.Goods.ListFrontend,
+					controller.Goods.Detail,
 				)
 
 				group.Group("/", func(grouo *ghttp.RouterGroup) {

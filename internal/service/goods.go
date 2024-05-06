@@ -19,6 +19,8 @@ type (
 		Update(ctx context.Context, in model.GoodsUpdateInput) error
 		// GetList 查询分类列表
 		GetList(ctx context.Context, in model.GoodsGetListInput) (out *model.GoodsGetListOutput, err error)
+		// Get good detail
+		GetDetail(ctx context.Context, in model.GoodsDetailInput) (out *model.GoodsDetailOutput, err error)
 	}
 )
 

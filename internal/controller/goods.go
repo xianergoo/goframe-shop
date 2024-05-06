@@ -3,6 +3,7 @@ package controller
 import (
 	"context"
 	"goframe-shop/api/backend"
+	"goframe-shop/api/frontend"
 	"goframe-shop/internal/model"
 	"goframe-shop/internal/service"
 
@@ -55,4 +56,35 @@ func (a *cGoods) List(ctx context.Context, req *backend.GoodsGetListCommonReq) (
 		Page:  getListRes.Page,
 		Size:  getListRes.Size,
 		Total: getListRes.Total}, nil
+}
+
+func (a *cGoods) ListFrontend(ctx context.Context, req *frontend.GoodsGetListCommonReq) (res *frontend.GoodsGetListCommonRes, err error) {
+	getListRes, err := service.Goods().GetList(ctx, model.GoodsGetListInput{
+		Page: req.Page,
+		Size: req.Size,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return &frontend.GoodsGetListCommonRes{List: getListRes.List,
+		Page:  getListRes.Page,
+		Size:  getListRes.Size,
+		Total: getListRes.Total}, nil
+}
+
+func (a *cGoods) Detail(ctx context.Context, req *frontend.GoodDetailReq) (res *frontend.GoodDetailRes, err error) {
+	detail, err := service.Goods().GetDetail(ctx, model.GoodsDetailInput{
+		Id: req.Id,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	res = &frontend.GoodDetailRes{}
+	err = gconv.Struct(detail, res)
+	if err != nil {
+		return nil, err
+	}
+	return
 }

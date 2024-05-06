@@ -1,6 +1,7 @@
 package model
 
 import (
+	"goframe-shop/internal/model/do"
 	"goframe-shop/internal/model/entity"
 )
 
@@ -51,4 +52,16 @@ type GoodsGetListOutput struct {
 
 type GoodsGetListOutputItem struct {
 	entity.GoodsInfo
+}
+
+// GoodsDetailInput
+type GoodsDetailInput struct {
+	Id uint
+}
+
+// GoodsDetailOutput
+type GoodsDetailOutput struct {
+	entity.GoodsInfo
+	Comments []CommentBase         `orm:"with:object_id=id, where:type=1"`
+	Options  []do.GoodsOptionsInfo `orm:"with:goods_id=id"`
 }
